@@ -1,0 +1,32 @@
+
+  
+  .marketList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+  }
+
+  .currentPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+  }
+
+  .priceInfo {
+    background-color: red;
+    min-height: 100px;
+  }
+
+  .dropdown-menu {
+    max-height: 12em;
+  }
+  
+  .dropdown-content {
+    overflow-y: scroll;
+    max-height: inherit;
+  }
+  
+ 
+  

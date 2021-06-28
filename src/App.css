@@ -1,0 +1,28 @@
+.App {
+  text-align: center;
+}
+
+
+.App-header {
+  
+  min-height: 100px;
+}
+
+.App-section {
+  background-color: #282;
+  min-height: 600px;
+}
+
+.App-aside {
+  background-color: royalblue;
+  min-height: 600px;
+}
+
+.App-footer {
+  background-color: red;
+  min-height: 150px;
+  
+}
+
+
+
