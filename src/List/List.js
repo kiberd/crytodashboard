@@ -1,14 +1,16 @@
 /*global kakao*/
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 
 import 'bulma/css/bulma.min.css';
 import './List.css'
+import { Context } from "../context";
 
 const List = (props) => {
 
     const result = props.resultData;
 
- 
+    // useContext를 이용하여 import한 Context안의 provider value를 가지고 온다.
+    const { place , contextDispatch } = useContext(Context); 
 
 
     if (typeof result === 'undefined') {
@@ -26,7 +28,7 @@ const List = (props) => {
                         <>
 
                             <div className="list">
-                                <a class="card">
+                                <a class="card" onClick= {() => contextDispatch({ type: "CHANGE", value: data})} >
                                     <div class="card-content">
 
 
