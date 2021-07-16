@@ -4,23 +4,30 @@
 
 
 .App-header {
+
+  padding: 25px 0 0 20px;
   
-  min-height: 100px;
+  min-height: 50px;
+  
 }
 
 .App-section {
-  background-color: #282;
-  min-height: 600px;
+  
+  min-height: 500px;
 }
 
 .App-aside {
-  background-color: royalblue;
-  min-height: 600px;
+  border-left: 1px solid #cedbdb;
+  width: auto;
+  height: 624px;
+  min-height: 500px;
+  padding: 10px;
+  overflow: auto;
 }
 
 .App-footer {
-  background-color: red;
-  min-height: 150px;
+  
+  min-height: 100px;
   
 }
 
