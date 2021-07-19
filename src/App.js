@@ -1,7 +1,7 @@
 /*global kakao*/
 import './App.css';
 import 'bulma/css/bulma.min.css';
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 
 
 import './Location/Location.js'
@@ -9,8 +9,8 @@ import Location from './Location/Location.js';
 import List from './List/List.js'
 
 
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Context } from "./context";
+
 
 
 function App() {
@@ -23,6 +23,9 @@ function App() {
     setPs(ps);
 
   }, [])
+
+  const { visablestatus, position, contextDispatch } = useContext(Context);
+
 
 
 
@@ -51,6 +54,7 @@ function App() {
   // 검색 버튼 누르면 키워드 서치 call
   const searchPlaces = () => {
 
+    contextDispatch({ type: "CHANGEVISABLE", visablestatus: { visable: true, url: '' }});
     const keyword = keywordInput.current.value;
 
     if (!keyword.replace(/^\s+|\s+$/g, '')) {
@@ -62,6 +66,16 @@ function App() {
       ps.keywordSearch(keyword, placesSearchCB);
 
     }
+  }
+
+  const getCurrentPosition = () => {
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      contextDispatch({ type: "SETPOSITION", position: { lat: position.coords.latitude, lng: position.coords.longitude }});
+    });
+
+    
+
   }
 
   // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -81,13 +95,10 @@ function App() {
 
       // 지도 범위 상태값 set
       setBounds(bounds);
-      
       // 마커 데이터 상태값 set
       setPlaceData(data);
-
       // 검색 결과 리스트로 넘겨줄 상태값에 set
       setResultData(data);
-
 
     } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
@@ -102,25 +113,6 @@ function App() {
     }
   }
 
-  // 지도에 마커를 표시하는 함수입니다
-  const displayMarker = (place) => {
-
-    // // 마커를 생성하고 지도에 표시합니다
-    // var marker = new kakao.maps.Marker({
-    //   map: map,
-    //   position: new kakao.maps.LatLng(place.y, place.x)
-    // });
-
-    // // 마커에 클릭이벤트를 등록합니다
-    // kakao.maps.event.addListener(marker, 'click', function () {
-    //   // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-    //   infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-    //   infowindow.open(map, marker);
-    // });
-
-
-  }
-
   return (
 
     <div className="App">
@@ -130,37 +122,16 @@ function App() {
 
           <div className="App-header">
             <div class="columns is-desktop">
-              <div class="column is-1">
-                <div class="dropdown is-hoverable">
-                  <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-                      <span>반경 선택</span>
-                      <span class="icon is-small">
-                        <FontAwesomeIcon icon={faAngleDown} />
-                      </span>
-                    </button>
-                  </div>
-                  <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-                    <div class="dropdown-content">
-                      <div class="dropdown-item">
-                        <a> 500m </a>
-                        <hr class="dropdown-divider"></hr>
-                        <a> 1km </a>
-                        <hr class="dropdown-divider"></hr>
-                        <a> 5km </a>
-                        <hr class="dropdown-divider"></hr>
-                        <a> 10km </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div class="column is-2">
                 <input class="input" type="text" placeholder="키워드 입력" ref={keywordInput}></input>
               </div>
               <div class="column is-1">
                 <a class="button is-primary" onClick={searchPlaces}>검색</a>
               </div>
+              <div class="column is-1">
+                <a class="button is-primary" onClick={getCurrentPosition}>내 위치 표시</a>
+              </div>
+
             </div>
           </div>
 
@@ -173,9 +144,30 @@ function App() {
       <div class="columns is-desktop">
 
         <div class="column is-three-fifths">
+
+
           <div className="App-section">
+
+            {visablestatus.visable ? 
+            
             <Location placeData={placeData} bounds={bounds}></Location>
+              
+            :
+              <>
+              <a class="button is-small is-link" onClick={() => contextDispatch({ type: "CHANGEVISABLE", visablestatus: { visable: true, url: '' }})}>지도로 돌아가기</a>
+              <iframe src={visablestatus.url} width='100%' height='624px' ></iframe>
+            
+              </>
+              }
+
+
+
+
+
           </div>
+
+
+
         </div>
 
 

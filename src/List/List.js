@@ -9,8 +9,10 @@ const List = (props) => {
 
     const result = props.resultData;
 
+
+
     // useContext를 이용하여 import한 Context안의 provider value를 가지고 온다.
-    const { place , contextDispatch } = useContext(Context); 
+    const { contextDispatch } = useContext(Context); 
 
 
     if (typeof result === 'undefined') {
@@ -29,6 +31,7 @@ const List = (props) => {
 
                             <div className="list">
                                 <a class="card" onClick= {() => contextDispatch({ type: "CHANGE", value: data})} >
+                                
                                     <div class="card-content">
 
 
@@ -37,10 +40,14 @@ const List = (props) => {
                                             <div class="media-content">
                                                 <p class="title is-4">{data.place_name}</p>
                                                 <p class="subtitle is-6">{data.address_name}</p>
-                                                <a href="data.place_url">{data.place_url}</a>
+                                                <a onClick= {() => contextDispatch({ type: "CHANGEVISABLE", visablestatus: { visable: false,
+                                                                                                                             url: data.place_url }})} >{data.place_url}</a>
+                                                                                                                             
 
                                             </div>
+                                            
                                         </div>
+                                        <a class="button is-info">길찾기</a>
 
 
                                     </div>

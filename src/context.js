@@ -6,7 +6,14 @@ export const Context = React.createContext();
 // state의 초기 값을 설정한다
 const initialState = {
     place: '',
-    markers: []
+    visablestatus: {
+        visable: true,
+        url: ''
+    },
+    position: {
+        lat: '',
+        lng: ''
+    }
 };
 
 
@@ -15,14 +22,20 @@ const reducer = (state, action) => {
     switch (action.type) {
         case "CHANGE":
             return {
-                ...state, //현재 state가 하나뿐이라 생략해도 된다. 두개 이상일 경우 변경하지 않은 state를 유지하기 위해 사용한다
-                place: action.value, // action.value에서 value는 추후 component에서 dispatch 할 때 payload로 보내주는 값의 이름이다.
+                ...state,
+                place: action.value,
             };
 
-        case "ADDMARKER":
+        case "CHANGEVISABLE":
             return {
-                ...state, //현재 state가 하나뿐이라 생략해도 된다. 두개 이상일 경우 변경하지 않은 state를 유지하기 위해 사용한다
-                markers: action.value, // action.value에서 value는 추후 component에서 dispatch 할 때 payload로 보내주는 값의 이름이다.
+                ...state,
+                visablestatus: action.visablestatus,
+            };
+
+        case "SETPOSITION":
+            return {
+                ...state,
+                position: action.position,
             };
 
         default:
@@ -39,7 +52,7 @@ const ContextProvider = ({ children }) => {
     return (
         <Context.Provider
             //provider에 value props로 state와 dispatch를 내려준다.
-            value={{ place: state.place, contextDispatch }}
+            value={{ place: state.place, visablestatus: state.visablestatus, position: state.position,  contextDispatch }}
         >
             {children}
         </Context.Provider>
