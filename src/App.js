@@ -124,9 +124,9 @@ function App() {
               <div class="column is-1">
                 <a class="button is-primary" onClick={searchPlaces}>검색</a>
               </div>
-              <div class="column is-1">
+              {/* <div class="column is-1">
                 <a class="button is-primary" onClick={getCurrentPosition}>내 위치</a>
-              </div>
+              </div> */}
 
             </div>
           </div>
