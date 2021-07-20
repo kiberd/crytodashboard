@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * 검색 결과 탭 클릭시 해당 장소로 맵 이동 및 마커 표시
 * 각 마커 클릭 시, 각 장소의 세부 정보를 볼 수 있음
 * 길찾기 클릭 시, 현재위치에서 해당 탭까지의 길찾기 결과 표시
-* 단 길찾기는 api를 제공하지 않고, url 서비스만 제공하여 iframe 형식으로 오픈
+* 단 길찾기는 api를 제공하지 않고, url 서비스만 제공하여서 iframe 형식으로 오픈
 
 ***
 
@@ -17,7 +17,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - *Server* : AWS EC2 
 
 *** 
-
 
 
 
