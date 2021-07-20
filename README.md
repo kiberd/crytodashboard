@@ -13,11 +13,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * **개발환경** 
 
   - *Frontend* :  ReactJS + Bulma
-  - *Backend* : Spring MVC
-  - *Server* : AWS EC2 
+  - *Hosting* : AWS EC2 
 
 *** 
 
+* **사용기술** 
+
+  - React Hooks (useState, useRef, useEffect, useContext)
+  - ContextAPI 를 이용한 전역값 (현재위치, 화면전환을 위한 flag, 선택된장소 등) 제어
 
 
 
