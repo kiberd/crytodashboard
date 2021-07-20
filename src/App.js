@@ -67,7 +67,9 @@ function App() {
   const getCurrentPosition = () => {
 
     if (navigator) {
+      
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
         contextDispatch({ type: "SETPOSITION", myposition: { lat: position.coords.latitude, lng: position.coords.longitude } });
       });
     }
