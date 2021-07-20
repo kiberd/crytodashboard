@@ -2,33 +2,26 @@
   text-align: center;
 }
 
-
 .App-header {
-
   padding: 25px 0 0 20px;
-  
   min-height: 50px;
-  
 }
 
 .App-section {
-  
-  min-height: 500px;
+  min-height: 600px;
 }
 
 .App-aside {
   border-left: 1px solid #cedbdb;
   width: auto;
-  height: 624px;
-  min-height: 500px;
+  height: 784px;
+  min-height: 600px;
   padding: 10px;
   overflow: auto;
 }
 
 .App-footer {
-  
-  min-height: 100px;
-  
+  min-height: 50px;
 }
 
 

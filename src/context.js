@@ -10,7 +10,11 @@ const initialState = {
         visable: true,
         url: ''
     },
-    position: {
+    visablestatusroute: {
+        visable: false,
+        url: ''
+    },
+    myposition: {
         lat: '',
         lng: ''
     }
@@ -20,29 +24,32 @@ const initialState = {
 // reducer는 action에서 받은 type에 따라서 state를 변경한다.
 const reducer = (state, action) => {
     switch (action.type) {
-        case "CHANGE":
+        case "CHANGESELECTEDPLACE":
             return {
                 ...state,
                 place: action.value,
             };
-
         case "CHANGEVISABLE":
             return {
                 ...state,
                 visablestatus: action.visablestatus,
             };
+        case "CHANGEVISABLEROUTE":
+            return {
+                ...state,
+                visablestatusroute: action.visablestatusroute,
+            };
 
         case "SETPOSITION":
             return {
                 ...state,
-                position: action.position,
+                myposition: action.myposition,
             };
 
         default:
             throw new Error();
     }
 };
-
 
 
 const ContextProvider = ({ children }) => {
@@ -52,7 +59,7 @@ const ContextProvider = ({ children }) => {
     return (
         <Context.Provider
             //provider에 value props로 state와 dispatch를 내려준다.
-            value={{ place: state.place, visablestatus: state.visablestatus, position: state.position,  contextDispatch }}
+            value={{ place: state.place, visablestatus: state.visablestatus, visablestatusroute: state.visablestatusroute, myposition: state.myposition, contextDispatch }}
         >
             {children}
         </Context.Provider>

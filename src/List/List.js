@@ -1,5 +1,5 @@
 /*global kakao*/
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useContext } from 'react'
 
 import 'bulma/css/bulma.min.css';
 import './List.css'
@@ -8,12 +8,25 @@ import { Context } from "../context";
 const List = (props) => {
 
     const result = props.resultData;
+    const { myposition, contextDispatch } = useContext(Context); 
 
+    const getDirection = (destiName) => {
+        if (myposition.lat === '') {
+            alert('내 위치를 찾을 수 없습니다!')
+        }
+        else {
+            const geocoder = new kakao.maps.services.Geocoder();
+            const coord = new kakao.maps.LatLng(myposition.lat, myposition.lng);
 
-
-    // useContext를 이용하여 import한 Context안의 provider value를 가지고 온다.
-    const { contextDispatch } = useContext(Context); 
-
+            const callback = function (result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                  const directionUrl = 'https://map.kakao.com/?sName=' + result[0].address.address_name + '&eName=' + destiName;
+                  contextDispatch({ type: "CHANGEVISABLEROUTE", visablestatusroute: { visable: true, url: directionUrl }});
+                }
+              };
+            geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+        }
+    }
 
     if (typeof result === 'undefined') {
         return (
@@ -23,50 +36,30 @@ const List = (props) => {
 
     else {
         return (
-
             <>
                 {
                     result.map((data) => (
                         <>
-
                             <div className="list">
-                                <a class="card" onClick= {() => contextDispatch({ type: "CHANGE", value: data})} >
-                                
+                                <a class="card" onClick= {() => contextDispatch({ type: "CHANGESELECTEDPLACE", value: data})} >
                                     <div class="card-content">
-
-
                                         <div class="media">
-
                                             <div class="media-content">
                                                 <p class="title is-4">{data.place_name}</p>
-                                                <p class="subtitle is-6">{data.address_name}</p>
-                                                <a onClick= {() => contextDispatch({ type: "CHANGEVISABLE", visablestatus: { visable: false,
-                                                                                                                             url: data.place_url }})} >{data.place_url}</a>
-                                                                                                                             
-
-                                            </div>
-                                            
+                                                <p class="subtitle is-6">{data.address_name}</p>                                                                 
+                                            </div>       
                                         </div>
-                                        <a class="button is-info">길찾기</a>
-
-
+                                        <a class="button is-info"  onClick= {() => getDirection(data.address_name)} >길찾기</a>
                                     </div>
                                 </a>
                             </div>
-
                             <hr></hr>
                         </>
-
                     ))
                 }
             </>
-
         );
-
     }
-
-
-
 }
 
 export default List;

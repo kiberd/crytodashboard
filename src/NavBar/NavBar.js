@@ -2,19 +2,10 @@ import React, { useState, useEffect } from 'react'
 import 'bulma/css/bulma.min.css';
 import './NavBar.css'
 
-
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-
 function FuturesPrices() {
-
-
-
-
-
-
   return (
 
     <div class="columns is-desktop">

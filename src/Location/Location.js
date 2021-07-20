@@ -5,114 +5,122 @@ import { Context } from "../context";
 
 const Location = (props) => {
 
-
   const containerRef = useRef(null);
 
   const [map, setMap] = useState();
   const [markers, setMarkers] = useState([]);
-  const { place, position, visablestatus, contextDispatch } = useContext(Context);
+  const { place, myposition, contextDispatch } = useContext(Context);
 
 
-  // 지도 범위 재설정
   const bounds = props.bounds;
   const placeData = props.placeData;
 
 
+  // Add Maker on map
+  const addMarker = (position, index) => {
 
-  // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-  const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+    const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
-
-
-  // 마커를 생성하고 지도위에 표시하는 함수
-  function addMarker(position, index) {
-
-    // 마커를 생성
     const marker = new kakao.maps.Marker({
       position: position
     });
 
+    kakao.maps.event.addListener(marker, 'click', clickListener(index));
     kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow, index));
     kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
 
-    // 마커가 지도 위에 표시되도록 설정
+    // Setmap for marker
     marker.setMap(map);
+
+    // Add marker to markers array
     let newMarker = markers;
     newMarker.push(marker);
     setMarkers(newMarker);
 
   }
 
-  // 인포윈도우를 표시하는 클로저를 만드는 함수
-  function makeOverListener(map, marker, infowindow, index) {
+  const addMyPositionMarker = (position) => {
+
+    const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png',
+          imageSize = new kakao.maps.Size(32, 35), 
+          imageOption = {offset: new kakao.maps.Point(27, 69)}; 
+    
+    const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+   
+    const marker = new kakao.maps.Marker({
+      position: position,
+      image: markerImage
+    });
+
+    // Setmap for marker
+    marker.setMap(map);
+  }
+
+  // Click
+  const clickListener = (index) => {
     return function () {
       if (index) {
-        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + placeData[index].place_name + '<br>자세한 내용은 클릭!</div>');
+        contextDispatch({ type: "CHANGEVISABLE", visablestatus: { visable: false, url: placeData[index].place_url } });
       }
       else {
-        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '<br>자세한 내용은 클릭!</div>');
+        contextDispatch({ type: "CHANGEVISABLE", visablestatus: { visable: false, url: place.place_url } });
       }
+    };
+  }
 
+  // MouseOver
+  const makeOverListener = (map, marker, infowindow, index) => {
+    return function () {
+      if (index) {
+        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + placeData[index].place_name + '</div>');
+      }
+      else {
+        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+      }
       infowindow.open(map, marker);
     };
   }
 
-  // 인포윈도우를 닫는 클로저를 만드는 함수
-  function makeOutListener(infowindow) {
+  // MouseOut
+  const makeOutListener = (infowindow) => {
     return function () {
       infowindow.close();
     };
   }
 
 
-
-  // 배열에 추가된 마커들을 지도에 표시하거나 삭제
+  // Control markers in map
   const setMarkersMap = (map) => {
     for (var i = 0; i < markers.length; i++) {
       markers[i].setMap(map);
     }
   }
 
-
-  // 최초 로딩 -> map 설정
+  // ComponentDidMount -> make map and set
   useEffect(() => {
-
-    alert('초기');
 
     const container = containerRef.current;
     const options = {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-      level: 3 // 지도의 확대 레벨
+      center: new kakao.maps.LatLng(37.566826, 126.9786567), // 서울시청
+      level: 3
     };
-
-
-    // 완전 초기 로딩
-    if (typeof map === 'undefined' && typeof placeData === 'undefined') {
-      const map = new kakao.maps.Map(container, options);
-      setMap(map);
-    }
-
-
-
-
+    const map = new kakao.maps.Map(container, options);
+    setMap(map);
   }, [])
 
 
-  // 새로 검색어 들어왔을때
+  // ComponentDidUpdate(placeData) -> 검색결과 (15개)
   useEffect(() => {
 
-    alert('검색어');
-    console.log()
-
-    // place 값 초기화 -> 모든 마커 그림 
-    contextDispatch({ type: "CHANGE", value: '' });
+    // 선택된 place 값 초기화 -> 모든 마커 그림 
+    contextDispatch({ type: "CHANGESELECTEDPLACE", value: '' });
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정
     if (typeof map !== 'undefined' && typeof bounds !== 'undefined') {
       map.setBounds(bounds);
     }
 
-    // 맨 처음 로딩될때 -> 선택된 장소가 없을때는 모든 마커를 그림
+    // 선택된 장소가 없을때는 모든 마커를 그림
     if (typeof map !== 'undefined' && typeof placeData !== 'undefined') {
       setMarkersMap(null);
       for (let i = 0; i < placeData.length; i++) {
@@ -121,45 +129,32 @@ const Location = (props) => {
       }
     }
 
-  }, [props.placeData])
+  }, [placeData])
 
 
-  // 리스트 중 클릭했을때
+  // ComponentDidUpdate(place) -> 리스트 중 클릭 했을때
   useEffect(() => {
-
     if (typeof map !== 'undefined' && place !== '') {
-
-
       setMarkersMap(null);
-      const moveLatLon = new kakao.maps.LatLng(place.y, place.x);
-      map.panTo(moveLatLon);
-
       const position = new kakao.maps.LatLng(place.y, place.x);
+      map.panTo(position);
       addMarker(position);
     }
-
-
   }, [place])
 
-  // 내 위치 가져오기 클릭시
+  // ComponentDidUpdate (myposition)
   useEffect(() => {
-
-    alert('vi');
-    // 검색된 장소 위치를 기준으로 지도 범위를 재설정
-    if (typeof map !== 'undefined' && typeof bounds !== 'undefined') {
-      map.setBounds(bounds);
+    if (typeof map !== 'undefined') {
+      const position = new kakao.maps.LatLng(myposition.lat, myposition.lng);
+      map.panTo(position);
+      addMyPositionMarker(position);
     }
-
-
-
-
-
-  }, [visablestatus])
+  }, [myposition])
 
 
   return (
     <div className="map">
-      <div ref={containerRef} id="map" style={{ width: "auto", height: "600px" }} ></div>
+      <div ref={containerRef} id="map" style={{ width: "auto", height: "770px" }} ></div>
     </div>
   )
 }
