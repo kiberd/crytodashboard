@@ -4,5 +4,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## 개발환경
 
-Frontend : ReactJS
+*Frontend : ReactJS
 
