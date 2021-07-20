@@ -10,22 +10,32 @@ const List = (props) => {
     const result = props.resultData;
     const { myposition, contextDispatch } = useContext(Context);
 
-    const getDirection = (destiName) => {
-        
+    const getDirection = (data) => {
+
+
         if (myposition.lat === '') {
             alert('내 위치를 찾을 수 없습니다! 출발지를 입력해 주세요.');
+            const directionUrl = 'https://map.kakao.com/link/to/' + data.id ;
+            contextDispatch({ type: "CHANGEVISABLEROUTE", visablestatusroute: { visable: true, url: directionUrl } });
         }
 
-        const geocoder = new kakao.maps.services.Geocoder();
-        const coord = new kakao.maps.LatLng(myposition.lat, myposition.lng);
+        else {
 
-        const callback = function (result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-                const directionUrl = 'https://map.kakao.com/?sName=' + result[0].address.address_name + '&eName=' + destiName;
-                contextDispatch({ type: "CHANGEVISABLEROUTE", visablestatusroute: { visable: true, url: directionUrl } });
-            }
-        };
-        geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+            const geocoder = new kakao.maps.services.Geocoder();
+            const coord = new kakao.maps.LatLng(myposition.lat, myposition.lng);
+    
+            const callback = function (result, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    const directionUrl = 'https://map.kakao.com/?sName=' + result[0].address.address_name + '&eName=' + data.place_name;
+                    contextDispatch({ type: "CHANGEVISABLEROUTE", visablestatusroute: { visable: true, url: directionUrl } });
+                }
+            };
+            geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+
+        }
+
+
+
 
     }
 
@@ -50,7 +60,7 @@ const List = (props) => {
                                                 <p class="subtitle is-6">{data.address_name}</p>
                                             </div>
                                         </div>
-                                        <a class="button is-info" onClick={() => getDirection(data.address_name)} >길찾기</a>
+                                        <a class="button is-info" onClick={() => getDirection(data)} >길찾기</a>
                                     </div>
                                 </a>
                             </div>
