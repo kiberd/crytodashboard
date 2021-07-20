@@ -65,7 +65,7 @@ function App() {
   }
 
   const getCurrentPosition = () => {
-
+    console.log(navigator);
     if (navigator) {
       
       navigator.geolocation.getCurrentPosition((position) => {
