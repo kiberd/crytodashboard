@@ -23,6 +23,8 @@ function App() {
     getCurrentPosition();
     setPs(ps);
 
+
+
   }, [])
 
   const { visablestatus, visablestatusroute, myposition, contextDispatch } = useContext(Context);
@@ -43,6 +45,8 @@ function App() {
 
   // 카카오 서비스 객체 상태값 
   const [ps, setPs] = useState();
+
+  const mobileMap = useRef(null);
 
 
   // 검색 버튼 누르면 키워드 서치 call
@@ -65,11 +69,11 @@ function App() {
   }
 
   const getCurrentPosition = () => {
-    console.log(navigator);
+
     if (navigator) {
 
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
+
         contextDispatch({ type: "SETPOSITION", myposition: { lat: position.coords.latitude, lng: position.coords.longitude } });
       });
     }
@@ -109,6 +113,23 @@ function App() {
     }
   }
 
+  const mapControl = () => {
+
+    console.log(mobileMap.current);
+
+    if (mobileMap.current.style.display === 'block') {
+      mobileMap.current.style.display = 'none';
+    }
+    else {
+      mobileMap.current.style.display = 'block';
+    }
+
+
+
+  }
+
+
+
   return (
 
     <div className="App">
@@ -123,15 +144,17 @@ function App() {
           <div class="column is-1-desktop">
             <a class="button is-primary" onClick={searchPlaces}>검색</a>
           </div>
+
+          <div class="column is-1-desktop is-hidden-desktop" >
+            <a class="button is-primary" onClick={mapControl}>Map</a>
+          </div>
+
           {/* <div class="column is-1">
                 <a class="button is-primary" onClick={getCurrentPosition}>내 위치</a>
               </div> */}
 
         </div>
       </div>
-
-
-
 
       <hr></hr>
       {
@@ -146,9 +169,9 @@ function App() {
           <>
             <div class="columns">
 
-              {/* 데스크탑 용 지도화면 */}
-              <div class="column is-three-fifths-desktop is-hidden-mobile">
-                <div className="App-section">
+              {/* 지도영역 및 세부정보*/}
+              <div class="column">
+                <div className="App-section" ref={mobileMap}>
                   {
                     visablestatus.visable ?
                       <Location placeData={placeData} bounds={bounds}></Location>
@@ -167,8 +190,6 @@ function App() {
                   <List resultData={resultData}></List>
                 </div>
               </div>
-
-
 
             </div>
           </>
