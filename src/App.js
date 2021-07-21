@@ -194,7 +194,7 @@ function App() {
                       :
                       <>
                         <a class="button is-small is-link" style={{ marginBottom: 1 + 'em' }} onClick={searchPlaces}>돌아가기</a>
-                        <iframe src={visablestatus.url} width='100%' height='750px' ></iframe>
+                        <iframe src={visablestatus.url} width='100%' height='300px' ></iframe>
                       </>
                   }
                 </div>
