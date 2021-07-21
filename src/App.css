@@ -12,12 +12,16 @@
   min-height: 600px;
 }
 
+.App-section-mobile {
+  min-height: 300px;
+  height: 300px;
+}
+
 .App-aside {
   border-left: 1px solid #cedbdb;
   width: auto;
   height: 784px;
   min-height: 600px;
-  padding: 10px;
   overflow: auto;
 }
 

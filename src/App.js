@@ -22,6 +22,7 @@ function App() {
     const ps = new kakao.maps.services.Places();
     getCurrentPosition();
     setPs(ps);
+    mobileMap.current.style.display = 'none';
 
 
 
@@ -169,12 +170,27 @@ function App() {
           <>
             <div class="columns">
 
-              {/* 지도영역 및 세부정보*/}
-              <div class="column">
-                <div className="App-section" ref={mobileMap}>
+              {/* 모바일 지도영역 및 세부정보*/}
+              <div class="column is-hidden-mobile">
+                <div className="App-section">
                   {
                     visablestatus.visable ?
-                      <Location placeData={placeData} bounds={bounds}></Location>
+                      <Location placeData={placeData} bounds={bounds} height={770}></Location>
+                      :
+                      <>
+                        <a class="button is-small is-link" style={{ marginBottom: 1 + 'em' }} onClick={searchPlaces}>돌아가기</a>
+                        <iframe src={visablestatus.url} width='100%' height='750px' ></iframe>
+                      </>
+                  }
+                </div>
+              </div>
+
+              {/* 모바일 지도영역 및 세부정보*/}
+              <div class="column is-hidden-desktop">
+                <div className="App-section-mobile" ref={mobileMap}>
+                  {
+                    visablestatus.visable ?
+                      <Location placeData={placeData} bounds={bounds} height={300}></Location>
                       :
                       <>
                         <a class="button is-small is-link" style={{ marginBottom: 1 + 'em' }} onClick={searchPlaces}>돌아가기</a>

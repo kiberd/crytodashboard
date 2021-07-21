@@ -14,6 +14,7 @@ const Location = (props) => {
 
   const bounds = props.bounds;
   const placeData = props.placeData;
+  const height = props.height;
 
 
   // Add Maker on map
@@ -154,7 +155,7 @@ const Location = (props) => {
 
   return (
     <div className="map">
-      <div ref={containerRef} id="map" style={{ width: "auto", height: "770px" }} ></div>
+      <div ref={containerRef} id="map" style={{ width: "auto", height: height }} ></div>
     </div>
   )
 }
