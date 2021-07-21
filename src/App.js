@@ -67,7 +67,7 @@ function App() {
   const getCurrentPosition = () => {
     console.log(navigator);
     if (navigator) {
-      
+
       navigator.geolocation.getCurrentPosition((position) => {
         console.log(position);
         contextDispatch({ type: "SETPOSITION", myposition: { lat: position.coords.latitude, lng: position.coords.longitude } });
@@ -113,31 +113,30 @@ function App() {
 
     <div className="App">
 
-      <div class="columns is-desktop">
-        <div class="column is-full">
 
-          <div className="App-header">
-            <div class="columns is-desktop">
-              <div class="column is-2">
-                <input class="input" type="text" placeholder="키워드 입력" ref={keywordInput}></input>
-              </div>
-              <div class="column is-1">
-                <a class="button is-primary" onClick={searchPlaces}>검색</a>
-              </div>
-              {/* <div class="column is-1">
+
+      <div className="App-header">
+        <div class="columns is-mobile">
+          <div class="column is-2-desktop is-three-fifths-mobile">
+            <input class="input" type="text" placeholder="키워드 입력" ref={keywordInput}></input>
+          </div>
+          <div class="column is-1-desktop">
+            <a class="button is-primary" onClick={searchPlaces}>검색</a>
+          </div>
+          {/* <div class="column is-1">
                 <a class="button is-primary" onClick={getCurrentPosition}>내 위치</a>
               </div> */}
-
-            </div>
-          </div>
 
         </div>
       </div>
 
+
+
+
       <hr></hr>
       {
         visablestatusroute.visable ?
-          <div class="columns is-desktop">
+          <div class="columns">
             <div class="column">
               <a class="button is-small is-link" style={{ marginBottom: 1 + 'em' }} onClick={searchPlaces}>돌아가기</a>
               <iframe src={visablestatusroute.url} width='100%' height='750px' ></iframe>
@@ -145,8 +144,10 @@ function App() {
           </div>
           :
           <>
-            <div class="columns is-desktop">
-              <div class="column is-three-fifths">
+            <div class="columns">
+
+              {/* 데스크탑 용 지도화면 */}
+              <div class="column is-three-fifths-desktop is-hidden-mobile">
                 <div className="App-section">
                   {
                     visablestatus.visable ?
@@ -159,11 +160,16 @@ function App() {
                   }
                 </div>
               </div>
+
+              {/* 검색결과 리스트 */}
               <div class="column">
                 <div className="App-aside">
                   <List resultData={resultData}></List>
                 </div>
               </div>
+
+
+
             </div>
           </>
 
