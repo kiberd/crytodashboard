@@ -170,7 +170,7 @@ function App() {
           <>
             <div class="columns">
 
-              {/* 모바일 지도영역 및 세부정보*/}
+              {/* 데스크탑 지도영역 및 세부정보*/}
               <div class="column is-hidden-mobile">
                 <div className="App-section">
                   {
@@ -183,6 +183,7 @@ function App() {
                       </>
                   }
                 </div>
+                <hr></hr>
               </div>
 
               {/* 모바일 지도영역 및 세부정보*/}
@@ -198,9 +199,10 @@ function App() {
                       </>
                   }
                 </div>
+                <hr></hr>
               </div>
 
-              {/* 검색결과 리스트 */}
+              {/* 데스크탑검색결과 리스트 */}
               <div class="column">
                 <div className="App-aside">
                   <List resultData={resultData}></List>

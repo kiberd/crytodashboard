@@ -51,6 +51,7 @@ const List = (props) => {
                 {
                     result.map((data) => (
                         <>
+                            
                             <div className="list">
                                 <a class="card" onClick={() => contextDispatch({ type: "CHANGESELECTEDPLACE", value: data })} >
                                     <div class="card-content">
