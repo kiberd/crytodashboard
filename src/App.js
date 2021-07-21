@@ -22,7 +22,7 @@ function App() {
     const ps = new kakao.maps.services.Places();
     getCurrentPosition();
     setPs(ps);
-    mobileMap.current.style.display = 'none';
+    // mobileMap.current.style.display = 'none';
 
 
 
@@ -146,9 +146,9 @@ function App() {
             <a class="button is-primary" onClick={searchPlaces}>검색</a>
           </div>
 
-          <div class="column is-1-desktop is-hidden-desktop" >
+          {/* <div class="column is-1-desktop is-hidden-desktop" >
             <a class="button is-primary" onClick={mapControl}>Map</a>
-          </div>
+          </div> */}
 
           {/* <div class="column is-1">
                 <a class="button is-primary" onClick={getCurrentPosition}>내 위치</a>
