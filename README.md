@@ -13,7 +13,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * **개발환경** 
 
   - *Frontend* :  ReactJS + Bulma
-  - *Hosting* : AWS EC2 
+  - *Hosting* : AWS EC2 + Nginx 를 이용한 
 
 *** 
 
