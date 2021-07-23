@@ -13,7 +13,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * **개발환경** 
 
   - *Frontend* :  ReactJS + Bulma
-  - *Hosting* : AWS EC2 + AWS Route 53 + Nginx 를 이용한 배포
+  - *Hosting* : AWS EC2 + AWS Route 53 + Nginx 를 이용한 배포 (www.kiberd.site 도메인을 Route 53 을 통해 실제 웹 주소로 호스팅)
 
 *** 
 
